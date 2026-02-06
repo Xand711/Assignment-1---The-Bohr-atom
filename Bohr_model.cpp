@@ -8,6 +8,8 @@ int main() {
     int n_initial;
     int n_final;
     char unit;
+    double conv;
+    bool eVs;
     // Ask for inputs
     cout << "Enter the atomic number (Z) of the atom." << endl;
     cin >> Z;
@@ -54,21 +56,34 @@ int main() {
     }
     cout << "Would you like energy in units of Joules or electronvolts? [J/E]" << endl;
     cin >> unit;
-    bool valid_unit = false;
     // Checks value of unit for desired energy unit. Sets conversion value based on input.
-    while (valid_unit == false) {
+    while (true) {
         if (toupper(unit) == 'E'){
-           int conv = 1;
-           valid_unit = true;
+            conv = 1;
+            eVs = true;
+           break;
         }
         else if (toupper(unit) == 'J'){
-            double conv = 2.5;
-            valid_unit = true;
+            // placeholder conversion value
+            conv = 2.5;
+            eVs = false;
+            break;
         }
         else{
             cout << "Your input was invalid. Please input J or E for desired unit." << endl;
             cin >> unit;
         }
     }
+    // Calculate and display photon energy
+    double Energy = fabs(conv * 13.6 * pow(Z,2) * (1/(pow(n_final,2)) - 1/(pow(n_initial,2))));
+    cout << "The photon energy released by an electron transition from state n = " << n_initial 
+        << " to n = " << n_final << " is " << Energy;
+        // Prints correct unit
+         if(eVs == true){
+            cout << " eV"<< endl;
+        } 
+        else{
+            cout << " J" << endl;
+        }
     return 0;
 }
